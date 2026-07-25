@@ -17,7 +17,7 @@ def load_data():
     """
     # TODO: Check if DATA_FILE exists.
     # Hint: You can use os.path.exists(DATA_FILE) to check.
-    #
+    # ABCD
     # TODO: Open the file and load the JSON data.
     # Hint: Use a try-except block to handle errors like json.JSONDecodeError or FileNotFoundError.
     # Make sure to return the loaded list of dictionaries.
