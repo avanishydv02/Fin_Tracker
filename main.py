@@ -15,17 +15,15 @@ def load_data():
     Returns:
         list: A list of transaction dictionaries.
     """
-    # TODO: Check if DATA_FILE exists.
-    # Hint: You can use os.path.exists(DATA_FILE) to check.
-    # ABCD
-    # TODO: Open the file and load the JSON data.
-    # Hint: Use a try-except block to handle errors like json.JSONDecodeError or FileNotFoundError.
-    # Make sure to return the loaded list of dictionaries.
-    #
-    # If the file does not exist, is empty, or cannot be parsed, return an empty list [].
 
-    # Placeholder return (replace this with your implementation):
-    return []
+    if not os.path.exists(DATA_FILE):
+        return []
+
+    try:
+        with open(DATA_FILE, "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
 
 
 def save_data(transactions):
@@ -37,7 +35,8 @@ def save_data(transactions):
     """
     # TODO: Open DATA_FILE in write mode ('w') and use json.dump() to save the transactions.
     # Hint: Use json.dump(transactions, file, indent=4) for clean formatting.
-    pass
+    with open(DATA_FILE, "w") as file:
+        json.dump(transactions, file, indent=4)
 
 
 def add_transaction(transactions, transaction_type):
