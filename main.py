@@ -33,8 +33,7 @@ def save_data(transactions):
     Args:
         transactions (list): The list of transaction dictionaries.
     """
-    # TODO: Open DATA_FILE in write mode ('w') and use json.dump() to save the transactions.
-    # Hint: Use json.dump(transactions, file, indent=4) for clean formatting.
+
     with open(DATA_FILE, "w") as file:
         json.dump(transactions, file, indent=4)
 
@@ -53,22 +52,32 @@ def add_transaction(transactions, transaction_type):
     # TODO: Write a loop to repeatedly prompt the user for the amount until they enter a valid positive number.
     # Hint: Use a try-except block to handle ValueError when converting the input to float.
     # Ensure the amount is greater than 0 before proceeding.
-    amount = 0.0  # Placeholder
+    while True:
+        try:
+            amount = float(input("Enter the amount: "))
+            if amount > 0:
+                break
+            else:
+                print("Amount less than 0. Please try again.")
+        except ValueError:
+            print("Error. Please enter a valid number.")
 
     # 2. Get category
     # TODO: Prompt the user to enter a category (string).
-    category = ""  # Placeholder
+    category = input("Enter the category of transaction: ")
 
     # 3. Get date
     # TODO: Prompt the user to enter a date (string, e.g., "YYYY-MM-DD").
-    date = ""  # Placeholder
+    date = input("Please enter the date of transaction (YYYY-MM-DD): ")
 
     # 4. Create the transaction dictionary
     # TODO: Construct a dictionary with keys: "type", "amount", "category", and "date".
-    #
+    transaction = {"Type": transaction_type, "Amount": amount,
+                   "Category": category, "Date": date}
+
     # 5. Append to the transactions list
     # TODO: Append the transaction dictionary to the `transactions` list.
-
+    transactions.append(transaction)
     print(f"Successfully added {transaction_type}!")
 
 

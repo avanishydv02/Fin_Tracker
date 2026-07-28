@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "Type": "income",
+        "Amount": 1000.0,
+        "Category": "entertainment",
+        "Date": "2026-08-12"
+    }
+]
