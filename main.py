@@ -38,6 +38,17 @@ def save_data(transactions):
         json.dump(transactions, file, indent=4)
 
 
+def clear_data():
+    """
+    Clears all saved transaction data.
+    """
+    if os.path.exists(DATA_FILE):
+        os.remove(DATA_FILE)
+        print("Transactions history cleared.")
+    else:
+        print("No saved data found.")
+
+
 def add_transaction(transactions, transaction_type):
     """
     Prompts the user for details and adds a transaction to the list.
@@ -48,10 +59,6 @@ def add_transaction(transactions, transaction_type):
     """
     print(f"\n--- Add {transaction_type.capitalize()} ---")
 
-    # 1. Get amount with validation
-    # TODO: Write a loop to repeatedly prompt the user for the amount until they enter a valid positive number.
-    # Hint: Use a try-except block to handle ValueError when converting the input to float.
-    # Ensure the amount is greater than 0 before proceeding.
     while True:
         try:
             amount = float(input("Enter the amount: "))
@@ -62,21 +69,13 @@ def add_transaction(transactions, transaction_type):
         except ValueError:
             print("Error. Please enter a valid number.")
 
-    # 2. Get category
-    # TODO: Prompt the user to enter a category (string).
     category = input("Enter the category of transaction: ")
 
-    # 3. Get date
-    # TODO: Prompt the user to enter a date (string, e.g., "YYYY-MM-DD").
     date = input("Please enter the date of transaction (YYYY-MM-DD): ")
 
-    # 4. Create the transaction dictionary
-    # TODO: Construct a dictionary with keys: "type", "amount", "category", and "date".
     transaction = {"Type": transaction_type, "Amount": amount,
                    "Category": category, "Date": date}
 
-    # 5. Append to the transactions list
-    # TODO: Append the transaction dictionary to the `transactions` list.
     transactions.append(transaction)
     print(f"Successfully added {transaction_type}!")
 
@@ -91,25 +90,36 @@ def view_summary(transactions):
     """
     print("\n=== Financial Summary ===")
 
-    # TODO: Calculate total income (sum of amounts where type is "income")
     total_income = 0.0
+    for transaction in transactions:
+        if transaction["Type"] == "income":
+            total_income += transaction["Amount"]
 
-    # TODO: Calculate total expenses (sum of amounts where type is "expense")
-    total_expenses = 0.0
+    total_expense = 0.0
+    for transaction in transactions:
+        if transaction["Type"] == "expense":
+            total_expense += transaction["Amount"]
 
-    # TODO: Calculate net balance (income - expenses)
-    net_balance = 0.0
+    net_balance = total_income - total_expense
 
     # Display calculations
     print(f"Total Income:   ${total_income:.2f}")
-    print(f"Total Expenses: ${total_expenses:.2f}")
+    print(f"Total Expenses: ${total_expense:.2f}")
     print(f"Net Balance:    ${net_balance:.2f}")
 
     print("\n--- Transaction History ---")
     # TODO: Print each transaction in a clean, readable format.
     # If the transactions list is empty, print "No transactions recorded yet."
     # Hint: Loop through the `transactions` list and print the details of each dictionary.
-    pass
+    if transactions == []:
+        print("No transactions recorded yet.")
+    else:
+        for transaction in transactions:
+            print(f"Type: {transaction['Type']}")
+            print(f"Amount: ₹{transaction['Amount']:.2f}")
+            print(f"Category: {transaction['Category']}")
+            print(f"Date: {transaction['Date']}")
+            print("-" * 15)
 
 
 def main():
@@ -127,9 +137,10 @@ def main():
         print("1. Add Income")
         print("2. Add Expense")
         print("3. View Summary")
-        print("4. Save and Exit")
+        print("4. Clear Saved Data")
+        print("5. Save & Exit")
 
-        choice = input("Choose an option (1-4): ").strip()
+        choice = input("Choose an option (1-5): ").strip()
 
         if choice == '1':
             add_transaction(transactions, "income")
@@ -138,13 +149,20 @@ def main():
         elif choice == '3':
             view_summary(transactions)
         elif choice == '4':
-            # Save records back to data.json upon exit
+            confirm = input(
+                "Are you sure you want to clear all your transactions history (yes/no): ").lower()
+            if confirm == "yes":
+                transactions.clear()
+                clear_data()
+            else:
+                print("Transaction history not cleared.")
+        elif choice == '5':
             print("Saving data...")
             save_data(transactions)
             print("Goodbye!")
             break
         else:
-            print("Invalid option. Please enter a number between 1 and 4.")
+            print("Invalid option. Please enter a number between 1 and 5.")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,26 @@
 [
     {
         "Type": "income",
-        "Amount": 1000.0,
-        "Category": "entertainment",
-        "Date": "2026-08-12"
+        "Amount": 100000.0,
+        "Category": "CEW Salary",
+        "Date": "2026-07-29"
+    },
+    {
+        "Type": "expense",
+        "Amount": 55000.0,
+        "Category": "Germany",
+        "Date": "2026-08-29"
+    },
+    {
+        "Type": "income",
+        "Amount": 100000.0,
+        "Category": "CEW Salary",
+        "Date": "2025-07-29"
+    },
+    {
+        "Type": "expense",
+        "Amount": 45000.0,
+        "Category": "Travel",
+        "Date": "2026-07-29"
     }
 ]
