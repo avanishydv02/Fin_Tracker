@@ -22,5 +22,17 @@
         "Amount": 45000.0,
         "Category": "Travel",
         "Date": "2026-07-29"
+    },
+    {
+        "Type": "income",
+        "Amount": 25000.0,
+        "Category": "CEW Salary Bonus",
+        "Date": "2026-07-29"
+    },
+    {
+        "Type": "expense",
+        "Amount": 25000.0,
+        "Category": "Shopping",
+        "Date": "2026-07-29"
     }
 ]

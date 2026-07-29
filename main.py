@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 # File name for data storage
 DATA_FILE = "data.json"
@@ -65,19 +66,32 @@ def add_transaction(transactions, transaction_type):
             if amount > 0:
                 break
             else:
-                print("Amount less than 0. Please try again.")
+                print("Amount must be greater than 0. Please try again.")
         except ValueError:
             print("Error. Please enter a valid number.")
 
-    category = input("Enter the category of transaction: ")
+    category = input(
+        "Enter the category of transaction: ").strip() or "Uncategorized"
 
-    date = input("Please enter the date of transaction (YYYY-MM-DD): ")
+    while True:
+        date_input = input(
+            "Please enter the date of transaction (YYYY-MM-DD) [Leave blank for today]: ").strip()
+        if not date_input:
+            date = datetime.today().strftime('%Y-%m-%d')
+            break
+        try:
+            datetime.strptime(date_input, "%Y-%m-%d")
+            date = date_input
+            break
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD.")
 
     transaction = {"Type": transaction_type, "Amount": amount,
                    "Category": category, "Date": date}
 
     transactions.append(transaction)
     print(f"Successfully added {transaction_type}!")
+    save_data(transactions)
 
 
 def view_summary(transactions):
@@ -91,21 +105,19 @@ def view_summary(transactions):
     print("\n=== Financial Summary ===")
 
     total_income = 0.0
+    total_expense = 0.0
     for transaction in transactions:
         if transaction["Type"] == "income":
             total_income += transaction["Amount"]
-
-    total_expense = 0.0
-    for transaction in transactions:
-        if transaction["Type"] == "expense":
+        elif transaction["Type"] == "expense":
             total_expense += transaction["Amount"]
 
     net_balance = total_income - total_expense
 
     # Display calculations
-    print(f"Total Income:   ${total_income:.2f}")
-    print(f"Total Expenses: ${total_expense:.2f}")
-    print(f"Net Balance:    ${net_balance:.2f}")
+    print(f"Total Income:   ₹{total_income:.2f}")
+    print(f"Total Expenses: ₹{total_expense:.2f}")
+    print(f"Net Balance:    ₹{net_balance:.2f}")
 
     print("\n--- Transaction History ---")
     # TODO: Print each transaction in a clean, readable format.
@@ -157,7 +169,7 @@ def main():
             else:
                 print("Transaction history not cleared.")
         elif choice == '5':
-            print("Saving data...")
+            print("Saving data.....")
             save_data(transactions)
             print("Goodbye!")
             break
